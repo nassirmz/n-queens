@@ -88,7 +88,7 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {  
-      var n = this.get(0).length;
+      var n = this.rows().length;
       for(var i = 0; i<n; i++) {
         if(this.hasRowConflictAt(i)) {
           return true;
@@ -104,7 +104,7 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      var n = this.get(colIndex).length;
+      var n = this.rows().length;
       var count = 0;
       for(var i = 0; i<n; i+=1) {
         if(this.get(i)[colIndex] ===1) {
@@ -116,7 +116,7 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      var n = this.get(0).length;
+      var n = this.rows().length;
       for(var i = 0; i<n; i++) {
         if(this.hasColConflictAt(i)) {
           return true;
@@ -133,7 +133,7 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var d = majorDiagonalColumnIndexAtFirstRow;
-      var n = this.get(0).length;
+      var n = this.rows().length;
       var count = 0;
       for(var i = 0; i<n; i++) {
         if(this.get(i)[i + d] ===1) {
@@ -145,7 +145,7 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      var n = this.get(0).length;
+      var n = this.rows().length;
       for( var i = 1-n; i< n; i++) {
         if(this.hasMajorDiagonalConflictAt(i)) {
           return true;
@@ -162,7 +162,7 @@
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       var d = minorDiagonalColumnIndexAtFirstRow;
-      var n = this.get(0).length;
+      var n = this.rows().length;
       var count = 0;
       for(var i = 0; i<n; i++) {
         if(this.get(i)[d - i] ===1) {
@@ -174,7 +174,7 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      var n = this.get(0).length;
+      var n = this.rows().length;
       for(var i = 0; i<= n * 2; i+=1) {
         if(this.hasMinorDiagonalConflictAt(i)) {
           return true;
