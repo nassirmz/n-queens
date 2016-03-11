@@ -15,8 +15,7 @@
 
 window.findSolution = function(row, n, board,validator, callback) {
   if(row ===n) {
-    callback(); 
-    return 
+    return callback(); 
   }
 
   for(var i = 0; i<n; i++) {
@@ -24,37 +23,22 @@ window.findSolution = function(row, n, board,validator, callback) {
     board.togglePiece(row, i);
 
     if(!board[validator]()) {
-
-     findSolution(row+1, n, board, validator, callback);
-    
+     var result = findSolution(row+1, n, board, validator, callback);
+     if(result) {
+      return result;
+     }
     }
     board.togglePiece(row, i);
   }
 };
 
 window.findNRooksSolution = function(n) {
-  var solution;
   var board = new Board({n: n});
-  function putArook(rowIndex) {
-    if(rowIndex >=n) {
-      return;
-    }
-    else if(rowIndex < n){
-      putArook(rowIndex + 1);
-    }
-    for(var colIndex = 0; colIndex < n; colIndex++) {
-      board.togglePiece(rowIndex, colIndex);
-      if(board.hasAnyRooksConflicts()) {
-        board.togglePiece(rowIndex, colIndex);
-      }
-      // board.togglePiece(rowIndex, colIndex);
-    }
-
-  }
-  putArook(0);
-  console.log(board.rows());
-  solution = board.rows();
-
+  var solution = findSolution(0, n, board,"hasAnyRooksConflicts", function(){
+    return _.map(board.rows(), function(row){
+      return row.slice();
+    });
+  });
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
@@ -78,12 +62,11 @@ window.countNRooksSolutions = function(n) {
 window.findNQueensSolution = function(n) { //fixme
 
   var board = new Board({n: n});
-  var solution = board.rows();
-  findSolution(0, n, board,"hasAnyQueensConflicts", function(){
-    solution =  _.map(board.rows(), function(row){
+  var solution = findSolution(0, n, board,"hasAnyQueensConflicts", function(){
+    return  _.map(board.rows(), function(row){
       return row.slice();
     });
-  });
+  }) || board.rows();
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
 };
